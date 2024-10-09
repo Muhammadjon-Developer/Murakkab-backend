@@ -1,0 +1,21 @@
+{
+  "name": "murakkab-backend",
+  "version": "1.0.0",
+  "description": "Murakkab Backend",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "keywords": [
+    "NodeJs",
+    "Backend",
+    "ExpressJs",
+    "Javascript"
+  ],
+  "author": "Muhammadjon",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.1",
+    "uuid": "^10.0.0"
+  }
+}
