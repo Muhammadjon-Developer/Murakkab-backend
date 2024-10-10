@@ -1,4 +1,7 @@
 const express = require("express");
+const mongoose = require("mongoose");
+const postModel = require("./models/post.model.js");
+require("dotenv").config();
 
 const app = express();
 
@@ -8,17 +11,28 @@ app.use(express.json());
 response = javob */
 
 // GET
-app.get("/", (req, res) => {
+app.get("/", async (req, res) => {
+  try {
+    const allPosts = await postModel.find();
+    res.status(200).json(allPosts);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+
   // res.send("Hello Muhammadjon !");
   // res.json({ message: "Hello Muhammadjon !" }); // json formatda yuborish. Agar ma'lumotlar ko'p bo'lsa shu formatda jo'natiladi chunki json juda yengil
-  res.status(200).json({ message: "Everything is perfect !" }); // status code yuborish
+  // res.status(200).json({ message: "Everything is perfect !" }); // status code yuborish
 });
 
 // POST
-app.post("/", (req, res) => {
-  const { firstName, lastName } = req.body;
-  const message = `His full name - ${firstName} ${lastName}`;
-  res.send(message);
+app.post("/", async (req, res) => {
+  try {
+    const { title, body } = req.body;
+    const newPost = await postModel.create({ title, body });
+    res.status(201).json(newPost);
+  } catch (error) {
+    res.status(500).json({ error });
+  }
 });
 
 // DELETE
@@ -35,6 +49,19 @@ app.put("/:id", (req, res) => {
   res.json({ id, body });
 });
 
-const PORT = 8080;
+const PORT = process.env.PORT || 8080;
 
-app.listen(PORT, () => console.log(`Listening on - http://localhost:${PORT}`));
+const bootstrap = async () => {
+  try {
+    await mongoose
+      .connect(process.env.DB_URL)
+      .then(() => console.log("Connected DB"));
+    app.listen(PORT, () =>
+      console.log(`Listening on - http://localhost:${PORT}`)
+    );
+  } catch (error) {
+    console.log(`Error connecting with DB: ${error}`);
+  }
+};
+
+bootstrap();
