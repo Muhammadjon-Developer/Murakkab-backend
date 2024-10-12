@@ -1,5 +1,6 @@
 const express = require("express");
 const postController = require("../controllers/post.controller");
+const logger = require("../middlewares/logger");
 
 const router = express.Router();
 
@@ -7,7 +8,7 @@ const router = express.Router();
 response = javob */
 
 router.get("/get", postController.getAll);
-router.post("/create", postController.create);
+router.post("/create", logger, postController.create);
 router.put("/edit/:id", postController.edit);
 router.get("/get-one/:id", postController.getOne);
 router.delete("/delete/:id", postController.delete);
