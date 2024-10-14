@@ -2,8 +2,6 @@ const express = require("express");
 const mongoose = require("mongoose");
 const fileUpload = require("express-fileupload");
 require("dotenv").config();
-
-const postRoute = require("./routes/post.route");
 const requestTime = require("./middlewares/request-time");
 
 const app = express();
@@ -14,7 +12,8 @@ app.use(express.static("static"));
 app.use(fileUpload());
 
 // Routes
-app.use("/api/post", postRoute);
+app.use("/api/post", require("./routes/post.route"));
+app.use("/api/auth", require("./routes/auth.route"));
 
 const PORT = process.env.PORT || 8080;
 
