@@ -12,10 +12,25 @@ class AuthService {
 
     const hashPassword = await bcrypt.hash(password, 10);
     const user = await userModel.create({ email, password: hashPassword });
+    // email service
+
+    // jwt token generatsiya
 
     const userDto = new UserDto(user);
 
+    // token
     return { userDto };
+  }
+
+  async activation(userId) {
+    const user = await userModel.findById(userId);
+
+    if (!user) {
+      throw new Error("User is not defined");
+    }
+
+    user.isActivated = true;
+    await user.save();
   }
 }
 
