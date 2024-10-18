@@ -1,6 +1,7 @@
 const userModel = require("../models/user.model");
 const UserDto = require("../dtos/user.dto");
 const bcrypt = require("bcrypt");
+const tokenService = require("./token.service");
 
 class AuthService {
   async register(email, password) {
@@ -14,9 +15,8 @@ class AuthService {
     const user = await userModel.create({ email, password: hashPassword });
     // email service
 
-    // jwt token generatsiya
-
     const userDto = new UserDto(user);
+    const tokens = tokenService.generateToken({ ...userDto });
 
     // token
     return { userDto };
