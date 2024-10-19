@@ -17,7 +17,7 @@ class AuthService {
 
     const userDto = new UserDto(user);
     const tokens = tokenService.generateToken({ ...userDto });
-
+    
     // token
     return { userDto };
   }
